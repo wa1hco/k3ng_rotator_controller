@@ -1,0 +1,18 @@
+# PlatformIO build artifacts
+.pio/
+
+# Test and simulator binaries
+tests/run_tests
+tests/run_integration_tests
+simulator/gui_server
+simulator/pc_rotator_sim
+
+# K3NG EEPROM state file (generated at runtime)
+eeprom.bin
+
+# Chat export files
+*.txt
+
+# IDE
+.vscode/
+.idea/

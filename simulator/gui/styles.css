@@ -1,0 +1,148 @@
+:root {
+  --bg: #0b1320;
+  --bg-soft: #101a2b;
+  --panel: #162235;
+  --line: #2a3d5d;
+  --text: #dbe8ff;
+  --muted: #97abc9;
+  --accent: #36c9a7;
+  --warn: #f6b542;
+  --danger: #eb5757;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+  background: radial-gradient(circle at 20% 20%, #153056, var(--bg));
+  color: var(--text);
+}
+
+.app-header {
+  padding: 20px 24px 8px;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 1.6rem;
+}
+
+.app-header p {
+  margin: 8px 0 0;
+  color: var(--muted);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  padding: 16px 24px 24px;
+}
+
+.panel {
+  background: linear-gradient(180deg, var(--panel), var(--bg-soft));
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.3);
+}
+
+.panel h2 {
+  margin-top: 0;
+  margin-bottom: 14px;
+}
+
+.readouts {
+  display: grid;
+  gap: 8px;
+}
+
+.readouts div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px dashed var(--line);
+  padding: 4px 0;
+}
+
+.readouts span {
+  color: var(--muted);
+}
+
+.manual-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 18px 0;
+}
+
+.btn {
+  border: none;
+  border-radius: 10px;
+  padding: 12px 10px;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn.primary {
+  background: linear-gradient(180deg, #2ac8a5, #17856d);
+}
+
+.btn.neutral {
+  background: linear-gradient(180deg, #7e8ea7, #516079);
+}
+
+.btn.danger {
+  background: linear-gradient(180deg, #ff6d6d, #a13535);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.target-controls,
+.speed-controls {
+  margin-top: 14px;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--muted);
+}
+
+.target-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+input[type="number"],
+input[type="range"] {
+  width: 100%;
+  background: #0b1320;
+  border: 1px solid var(--line);
+  color: var(--text);
+  border-radius: 8px;
+  padding: 8px;
+}
+
+canvas {
+  width: 100%;
+  max-width: 380px;
+  display: block;
+  margin: 0 auto 10px;
+  background: #0b1320;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+}
+
+@media (max-width: 980px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}

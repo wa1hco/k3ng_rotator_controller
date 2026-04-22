@@ -183,8 +183,10 @@ void RotatorAxisSimulator::step_ms(uint32_t delta_ms) {
   current_angle_deg_ = normalize_angle(current_angle_deg_ + commanded_move_deg);
 
   const float delta_after = shortest_signed_delta(current_angle_deg_, target_angle_deg_);
+  // >= / <= so delta_before==0 (target set to exact current position) counts as
+  // a crossing when the rotor is still moving through that point.
   const bool crossed_target =
-      ((delta_before > 0.0f && delta_after < 0.0f) || (delta_before < 0.0f && delta_after > 0.0f));
+      ((delta_before >= 0.0f && delta_after < 0.0f) || (delta_before <= 0.0f && delta_after > 0.0f));
   const bool tiny_move =
       std::fabs(shortest_signed_delta(previous_angle, current_angle_deg_)) < config_.tolerance_deg;
 

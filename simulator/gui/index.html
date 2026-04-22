@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>K3NG Rotator GUI Simulator</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <h1>K3NG Rotator Fast Real-Time Simulator</h1>
+      <p>Dual-pane view: controller software panel and simulated hardware position.</p>
+    </header>
+
+    <main class="layout">
+      <section class="panel controller-panel">
+        <h2>Virtual Control Panel</h2>
+
+        <div class="readouts">
+          <div><span>Controller AZ Readout:</span><strong id="ctrl-az">0.0 deg</strong></div>
+          <div><span>Controller Target:</span><strong id="ctrl-target">0.0 deg</strong></div>
+          <div><span>Mode:</span><strong id="ctrl-mode">IDLE</strong></div>
+        </div>
+
+        <div class="manual-buttons">
+          <button id="btn-ccw" class="btn danger">REV / CCW</button>
+          <button id="btn-stop" class="btn neutral">STOP</button>
+          <button id="btn-cw" class="btn primary">FWD / CW</button>
+        </div>
+
+        <div class="target-controls">
+          <label for="target-input">Set Target Azimuth</label>
+          <div class="target-row">
+            <input id="target-input" type="number" min="0" max="450" step="0.1" value="180" />
+            <button id="btn-go-target" class="btn primary">GO TARGET</button>
+          </div>
+        </div>
+
+        <div class="speed-controls">
+          <label for="seconds-per-rotation">Seconds per 360 deg (default: 10)</label>
+          <div class="target-row">
+            <input id="seconds-per-rotation" type="range" min="5" max="60" step="1" value="10" />
+            <strong id="seconds-value">10 s</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel hardware-panel">
+        <h2>Simulated Hardware</h2>
+        <canvas id="dial" width="380" height="380" aria-label="Rotator azimuth dial"></canvas>
+
+        <div class="readouts">
+          <div><span>Hardware AZ:</span><strong id="hw-az">0.0 deg</strong></div>
+          <div><span>Hardware Speed:</span><strong id="hw-speed">0.0 deg/s</strong></div>
+          <div><span>Direction:</span><strong id="hw-dir">IDLE</strong></div>
+        </div>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
