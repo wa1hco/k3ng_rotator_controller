@@ -1,4 +1,82 @@
-# K3NG Rotator Controller
+# K3NG Rotator Controller — WA1HCO Fork
+
+> **This is not the official K3NG project.**
+> The original firmware by Anthony Good, K3NG, is at
+> **https://github.com/k3ng/k3ng_rotator_controller**
+> All bugs introduced here are WA1HCO's, not K3NG's.
+
+This fork adds:
+- Native Linux build — run the real K3NG firmware on a PC without hardware
+- Physics simulator — models rotator mechanics (position, speed, acceleration, backlash)
+- Integration test framework — drive K3NG via Yaesu protocol and assert on behavior
+- Browser GUI — compass display connected to live firmware position via C2 polling
+- Planned: dual-end potentiometer ADC for grounded-wiper noise cancellation
+
+The goal is to give K3NG hackers a way to verify their changes without needing hardware on the bench for every iteration.
+
+---
+
+## Native Build and Test
+
+The native build compiles the real K3NG firmware for Linux using an Arduino compatibility layer.
+No microcontroller required.
+
+**Prerequisites**: PlatformIO, g++, make.
+
+```bash
+# Build the K3NG native binary
+pio run -e native_test
+
+# Run unit tests (simulator physics, protocol shim)
+cd tests && make test
+
+# Run integration tests (fork K3NG, drive via Yaesu, assert behavior)
+cd tests && make integration
+```
+
+Integration tests cover: startup, move to azimuth, CCW/CW limits, overlap zone routing,
+stop mid-rotation, and sequential targets. Expected runtime ~60 seconds.
+
+To test against a different binary:
+```bash
+K3NG_BINARY=path/to/your/build make integration
+```
+
+## Browser GUI
+
+Builds an HTTP server that forks the K3NG native binary and bridges it to a browser UI.
+The compass needle is driven by real firmware position (C2 polling every 100ms).
+
+```bash
+cd simulator && make gui
+./gui_server          # default port 8080
+./gui_server --port 9090 --k3ng path/to/binary
+```
+
+Open `http://localhost:8080/` in a browser.
+
+## Native Build Configuration
+
+The native test build uses a minimal feature set to keep the dependency surface small:
+
+| Setting | Value |
+|---|---|
+| Protocol | Yaesu GS-232B |
+| Position sensor | Single potentiometer |
+| Azimuth range | 180°–630° (K3NG default 450° capability) |
+| Simulated speed | 30°/s, 30°/s² accel (~15s full sweep) |
+| Display | None |
+| Elevation | None |
+
+Configuration files: `rotator_features_native_test.h`, `rotator_pins_native_test.h`, `rotator_settings_native_test.h`.
+
+---
+
+## Original K3NG README
+
+Everything below is from the original K3NG project.
+
+---
 
 ## Introduction
 
@@ -7,71 +85,6 @@ This is an Arduino-based rotator interface that interfaces a computer to a rotat
 ## Documentation
 
 Full documentation is located [here](https://github.com/k3ng/k3ng_rotator_controller/wiki).  Please read it!  Volunteers for maintaining documentation are needed.
-
-## Unit Testing (Host)
-
-A lightweight native C++ test harness is included to support refactoring and regression testing of hardware-independent logic.
-
-Run tests:
-
-```bash
-cd tests
-make test
-```
-
-See `tests/README.md` for details and conventions.
-
-## PC Simulator (Dual Axis)
-
-A dual-axis software simulator is available for high-speed, low-noise development on a host PC.
-It includes:
-
-- Simulated controller display (sensor/readout and commanded targets)
-- Simulated hardware position display (actual mechanism state)
-- Yaesu/Easycom-style command shim (`proto` command)
-- Mechanical effects (`backlash`, `stiction`)
-- Fault injection (`stall`, `dropout`, `stuck_cw`, `stuck_ccw`)
-
-Build and run:
-
-```bash
-cd simulator
-make build
-./pc_rotator_sim
-```
-
-Example session:
-
-```text
-status
-proto W 270 60
-run 4000 20
-fault az stall on
-status
-```
-
-### GUI Simulator (Mouse Control, Fast Real Time)
-
-A browser-based GUI is served by the C++ simulator backend.
-
-Features:
-
-- Virtual controller panel and hardware panel shown side-by-side
-- Mouse-click controls for `FWD / CW`, `REV / CCW`, and `STOP`
-- Real-time simulation loop
-- Speed control in seconds per 360 degrees (default: 10 seconds)
-
-Run:
-
-```bash
-cd simulator
-make gui
-./gui_server
-```
-
-Then open:
-
-`http://localhost:8080/`
 
 ## Features
 
@@ -140,4 +153,4 @@ I will donate parts, units, or specially customized software for DXpeditions.  E
 
 Please consult [this page](https://blog.radioartisan.com/support-for-k3ng-projects/) for support information.  Feature requests and bugs are documented and tracked on [GitHub](https://github.com/k3ng/k3ng_rotator_controller/issues).
 
-Please note that I do this work in my spare time as I can and I am not a professional developer, however I play one on TV.  I do my best to answer support requests,  however I don’t like having to answer questions for items that are explained in the [documentation](https://github.com/k3ng/k3ng_rotator_controller/wiki).  I do maintain a list of [feature requests](https://github.com/k3ng/k3ng_rotator_controller/issues).  Development items are prioritized by me based on the level of difficulty and what I’m interested in.  I welcome code contributions, code testing, bug reports, and any help you can provide.  This can even be helping with [documentation](https://github.com/k3ng/k3ng_rotator_controller/wiki) or providing support to others on the [Radio Artisan discussion group](https://groups.yahoo.com/neo/groups/radioartisan/info).
+Please note that I do this work in my spare time as I can and I am not a professional developer, however I play one on TV.  I do my best to answer support requests,  however I don't like having to answer questions for items that are explained in the [documentation](https://github.com/k3ng/k3ng_rotator_controller/wiki).  I do maintain a list of [feature requests](https://github.com/k3ng/k3ng_rotator_controller/issues).  Development items are prioritized by me based on the level of difficulty and what I'm interested in.  I welcome code contributions, code testing, bug reports, and any help you can provide.  This can even be helping with [documentation](https://github.com/k3ng/k3ng_rotator_controller/wiki) or providing support to others on the [Radio Artisan discussion group](https://groups.yahoo.com/neo/groups/radioartisan/info).
