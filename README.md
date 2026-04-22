@@ -8,6 +8,71 @@ This is an Arduino-based rotator interface that interfaces a computer to a rotat
 
 Full documentation is located [here](https://github.com/k3ng/k3ng_rotator_controller/wiki).  Please read it!  Volunteers for maintaining documentation are needed.
 
+## Unit Testing (Host)
+
+A lightweight native C++ test harness is included to support refactoring and regression testing of hardware-independent logic.
+
+Run tests:
+
+```bash
+cd tests
+make test
+```
+
+See `tests/README.md` for details and conventions.
+
+## PC Simulator (Dual Axis)
+
+A dual-axis software simulator is available for high-speed, low-noise development on a host PC.
+It includes:
+
+- Simulated controller display (sensor/readout and commanded targets)
+- Simulated hardware position display (actual mechanism state)
+- Yaesu/Easycom-style command shim (`proto` command)
+- Mechanical effects (`backlash`, `stiction`)
+- Fault injection (`stall`, `dropout`, `stuck_cw`, `stuck_ccw`)
+
+Build and run:
+
+```bash
+cd simulator
+make build
+./pc_rotator_sim
+```
+
+Example session:
+
+```text
+status
+proto W 270 60
+run 4000 20
+fault az stall on
+status
+```
+
+### GUI Simulator (Mouse Control, Fast Real Time)
+
+A browser-based GUI is served by the C++ simulator backend.
+
+Features:
+
+- Virtual controller panel and hardware panel shown side-by-side
+- Mouse-click controls for `FWD / CW`, `REV / CCW`, and `STOP`
+- Real-time simulation loop
+- Speed control in seconds per 360 degrees (default: 10 seconds)
+
+Run:
+
+```bash
+cd simulator
+make gui
+./gui_server
+```
+
+Then open:
+
+`http://localhost:8080/`
+
 ## Features
 
 * Azimuth only and azimuth / elevation rotator support

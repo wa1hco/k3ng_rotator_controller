@@ -22,9 +22,12 @@
 #endif
 #ifdef HARDWARE_TEST
   #include "rotator_features_test.h"
-#endif    
+#endif
+#ifdef HARDWARE_NATIVE_TEST
+  #include "rotator_features_native_test.h"
+#endif
 #if !defined(HARDWARE_CUSTOM)
-  #include "rotator_features.h" 
+  #include "rotator_features.h"
 #endif 
 
 #include "rotator_hardware.h"

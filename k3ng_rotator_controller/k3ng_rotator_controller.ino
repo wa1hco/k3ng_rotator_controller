@@ -1131,11 +1131,14 @@
 #endif
 #ifdef HARDWARE_TEST
   #include "rotator_features_test.h"
-#endif    
+#endif
+#ifdef HARDWARE_NATIVE_TEST
+  #include "rotator_features_native_test.h"
+#endif
 #if !defined(HARDWARE_CUSTOM)
-  #include "rotator_features.h" 
-#endif      
-  
+  #include "rotator_features.h"
+#endif
+
 #include "rotator_dependencies.h"
 
 #ifdef FEATURE_4_BIT_LCD_DISPLAY
@@ -1257,6 +1260,9 @@
 #ifdef HARDWARE_TEST
   #include "rotator_pins_test.h"
 #endif
+#ifdef HARDWARE_NATIVE_TEST
+  #include "rotator_pins_native_test.h"
+#endif
 #if !defined(HARDWARE_CUSTOM)
   #include "rotator_pins.h"
 #endif
@@ -1277,7 +1283,10 @@
 #endif
 #ifdef HARDWARE_TEST
   #include "rotator_settings_test.h"
-#endif      
+#endif
+#ifdef HARDWARE_NATIVE_TEST
+  #include "rotator_settings_native_test.h"
+#endif
 #if !defined(HARDWARE_CUSTOM)
   #include "rotator_settings.h"
 #endif
@@ -21927,3 +21936,13 @@ byte submit_remote_command(byte remote_command_to_send, byte parm1, int parm2){
 
 
 // that's all, folks !
+
+#ifdef NATIVE_BUILD
+int main(int /*argc*/, char ** /*argv*/) {
+    setup();
+    for (;;) {
+        loop();
+    }
+    return 0;
+}
+#endif // NATIVE_BUILD

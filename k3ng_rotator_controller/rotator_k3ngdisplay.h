@@ -45,10 +45,13 @@
 #endif
 #ifdef HARDWARE_TEST
   #include "rotator_features_test.h"
-#endif    
+#endif
+#ifdef HARDWARE_NATIVE_TEST
+  #include "rotator_features_native_test.h"
+#endif
 #if !defined(HARDWARE_CUSTOM)
-  #include "rotator_features.h" 
-#endif   
+  #include "rotator_features.h"
+#endif
 #ifdef HARDWARE_M0UPU
   #include "rotator_pins_m0upu.h"
 #endif
@@ -60,6 +63,9 @@
 #endif
 #ifdef HARDWARE_TEST
   #include "rotator_pins_test.h"
+#endif
+#ifdef HARDWARE_NATIVE_TEST
+  #include "rotator_pins_native_test.h"
 #endif
 #if !defined(HARDWARE_CUSTOM)
   #include "rotator_pins.h"

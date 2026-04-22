@@ -1,0 +1,9 @@
+{
+  "name": "arduino_compat",
+  "version": "0.1.0",
+  "description": "Arduino API stubs for native PC compilation of K3NG rotator controller",
+  "build": {
+    "includeDir": "include",
+    "srcDir": "src"
+  }
+}
