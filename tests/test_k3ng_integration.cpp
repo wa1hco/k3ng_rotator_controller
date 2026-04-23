@@ -64,26 +64,27 @@ TEST_CASE(k3ng_move_to_overlap_zone_045) {
 
 TEST_CASE(k3ng_stop_command_halts_mid_rotation) {
   K3ngProcess k3ng;
-  // Kick off a long move, then stop it after 1 second.
-  char cmd[16];
-  snprintf(cmd, sizeof(cmd), "M%03d\r\n", 360);
-  k3ng.send(cmd);
-  usleep(1000000);  // 1s — rotor should be ~30° into the move
+  float az_start = k3ng.query_az(1.0f);
+  REQUIRE_TRUE(az_start >= 0.0f);
+
+  // Kick off a long move toward CW end, then stop it after 1 second.
+  k3ng.send("M360\r\n");
+  usleep(1000000);  // 1s — rotor should have moved
 
   float az_before = k3ng.query_az(0.5f);
   k3ng.send("A\r\n");
-  // At 30°/s max and 30°/s² accel, full deceleration takes 1 second.
-  usleep(1500000);  // 1.5s — enough for any speed to reach zero
+  // Allow full deceleration (worst case: max_speed / accel seconds, plus margin).
+  usleep(2000000);
 
   float az_after1 = k3ng.query_az(0.5f);
   usleep(300000);
   float az_after2 = k3ng.query_az(0.5f);
 
-  // Should have moved appreciably from home before stop.
-  REQUIRE_TRUE(az_before > 185.0f);
-  // Should be settled (not still moving) after stop.
+  // Should have moved appreciably from starting position.
+  REQUIRE_TRUE(std::fabs(az_before - az_start) > 3.0f);
+  // Should be settled after stop.
   REQUIRE_TRUE(std::fabs(az_after2 - az_after1) < 1.0f);
-  // Should not have reached the target.
+  // Should not have reached the target (360° for any config).
   REQUIRE_TRUE(az_after2 < 355.0f);
 }
 

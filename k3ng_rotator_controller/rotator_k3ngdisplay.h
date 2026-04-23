@@ -49,6 +49,9 @@
 #ifdef HARDWARE_NATIVE_TEST
   #include "rotator_features_native_test.h"
 #endif
+#ifdef HARDWARE_HCO_BOARD
+  #include "rotator_features_hco_board.h"
+#endif
 #if !defined(HARDWARE_CUSTOM)
   #include "rotator_features.h"
 #endif
@@ -66,6 +69,9 @@
 #endif
 #ifdef HARDWARE_NATIVE_TEST
   #include "rotator_pins_native_test.h"
+#endif
+#ifdef HARDWARE_HCO_BOARD
+  #include "rotator_pins_hco_board.h"
 #endif
 #if !defined(HARDWARE_CUSTOM)
   #include "rotator_pins.h"

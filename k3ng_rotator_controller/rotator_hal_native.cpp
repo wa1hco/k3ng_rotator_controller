@@ -1,11 +1,17 @@
 #ifdef NATIVE_BUILD
 
 #include "rotator_hal_native.h"
-#include "Arduino.h"                    // for millis(), HIGH/LOW
-#include "rotator_hardware.h"           // HARDWARE_* board selection
-#include "rotator_features_native_test.h"  // FEATURE_* for this build
-#include "rotator_pins_native_test.h"   // rotate_cw, rotate_ccw, rotator_analog_az
-#include "rotator_settings_native_test.h"  // AZIMUTH_*_EEPROM_INITIALIZE, NATIVE_SIMULATOR_*
+#include "Arduino.h"  // for millis(), HIGH/LOW
+
+#ifdef HARDWARE_HCO_BOARD
+  #include "rotator_features_hco_board.h"
+  #include "rotator_pins_hco_board.h"
+  #include "rotator_settings_hco_board.h"
+#else  // default: HARDWARE_NATIVE_TEST
+  #include "rotator_features_native_test.h"
+  #include "rotator_pins_native_test.h"
+  #include "rotator_settings_native_test.h"
+#endif
 
 #include <algorithm>
 #include <cmath>

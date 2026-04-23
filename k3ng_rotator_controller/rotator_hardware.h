@@ -11,6 +11,7 @@
 // #define HARDWARE_WB6KCN         // customize rotator_features_wb6kcn.h, rotators_pins_wb6kcn.h, rotator_settings_wb6kcn.h
 // #define HARDWARE_WB6KCN_K3NG         // K3NG test jig - do not use
 // #define HARDWARE_TEST         // K3NG test jig - do not use
+// #define HARDWARE_HCO_BOARD      // WA1HCO Teensy 4.0 board — rotator_features_hco_board.h, rotator_pins_hco_board.h, rotator_settings_hco_board.h
 
 
 /* Serial port class definitions for various devices
@@ -41,7 +42,7 @@
 
 // do not modify anything below this line
 
-#if defined(HARDWARE_M0UPU) || defined(HARDWARE_EA4TX_ARS_USB) || defined(HARDWARE_WB6KCN) || defined(HARDWARE_TEST) || defined(HARDWARE_WB6KCN_K3NG) || defined(HARDWARE_NATIVE_TEST)
+#if defined(HARDWARE_M0UPU) || defined(HARDWARE_EA4TX_ARS_USB) || defined(HARDWARE_WB6KCN) || defined(HARDWARE_TEST) || defined(HARDWARE_WB6KCN_K3NG) || defined(HARDWARE_NATIVE_TEST) || defined(HARDWARE_HCO_BOARD)
   #define HARDWARE_CUSTOM
 #endif
 
